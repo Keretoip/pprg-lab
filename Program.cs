@@ -190,25 +190,40 @@ Console.Write("\n" + isALive +
 
 //ZADANIE.5
 
-Console.WriteLine("");
+/*Console.WriteLine("Imię bohater: ");
 String name = Console.ReadLine();
 
-Console.WriteLine("");
+Console.WriteLine("Maksymalne punkty życia: ");
 int maxHp = int.Parse(Console.ReadLine());
 
-Console.WriteLine("");
+Console.WriteLine("Aktualne punkty życia: ");
 int hp = int.Parse(Console.ReadLine());
 
-Console.WriteLine("");
+Console.WriteLine("Podstawowe obrażenia broni: ");
 int weaponDmg = int.Parse(Console.ReadLine());
 
-Console.WriteLine("");
+Console.WriteLine("Premia do siły: ");
 int strength = int.Parse(Console.ReadLine());
 
-Console.WriteLine("");
-int spAtkMultiplier = int.Parse(Console.ReadLine());
+Console.WriteLine("Mnożnik ataku specjalnego: ");
+double spAtkMulti = int.Parse(Console.ReadLine());
 
-Console.WriteLine("");
-int normalHitsPerformed = int.Parse(Console.ReadLine());
+Console.WriteLine("Liczba wykonanych zwykłych ataków: ");
+int nHitsPerf = int.Parse(Console.ReadLine());
 
-//ZADANIE.6
+int nAtk = weaponDmg + strength;
+int spAtk = nAtk * spAtkMulti; //!!!!!!!
+int dmgTotal = nAtk * nHitsPerf + spAtk;
+double remHp = maxHp / hp * 100;
+bool isALive = remHp > 0;
+bool hasFullHp = maxHp == 100;
+
+Console.WriteLine("====== RAPORT Z WALKI ======");
+Console.Write("Bohater: " + name +
+              "\nZdrowie: " + (remHp / 100) + "/100 (" + remHp + ")"
+              "\nZwykły atak: " + nAtk +
+              "\nAtak specjalny: " + spAtk +
+              "\nŁączne zadane obrażenia: " + dmgTotal +
+              "\nŻyje: " + isAlive + 
+              "\nPełne zdrowie: " + hasFullHp; 
+Console.WriteLine("============================");*/
