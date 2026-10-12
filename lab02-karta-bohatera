@@ -1,0 +1,115 @@
+﻿//ZADANIE.1
+
+/*String name = "ziom";
+char marker = 'V';
+int level = 5;
+int gold = 999;
+double inventoryWeight = 4.5;
+bool hasAMap = false;
+
+Console.WriteLine("=== EKWIPUNEK ===");
+Console.Write("Imię: " + name +
+              "\nSymbol: " + marker +
+              "\nPoziom: " + level +
+              "\nZłoto: " + gold +
+              "\nWaga: " + inventoryWeight + " kg" +
+              "\nMa mapę: " + hasAMap);*/
+
+//ZADANIE.2
+/*int training = 0;
+int exp = 30;
+int gold = 50;
+
+Console.WriteLine("Trening: " + training + "\nDoświadczenie: " + exp + "\nZłoto: " + gold);
+
+exp += 25;
+exp *= 2;
+gold -= 8;
+gold += 15;
+training += 1;
+
+Console.Write("\nTrening: " + training + "\nDoświadczenie: " + exp + "\nZłoto: " + 
+              gold);*/
+
+//ZADANIE.3
+
+/*Console.Write("Podaj liczbę racji żywnościowych: ");
+int foodAmount = int.Parse(Console.ReadLine());
+
+Console.Write("Podaj liczbę członków drużyny: ");
+int partyMembers = int.Parse(Console.ReadLine());
+
+Console.Write("liczbę dni wyprawy: ");
+int daysPassed = int.Parse(Console.ReadLine());
+
+Console.WriteLine("\nKażdy członek drużyny otrzyma " + (foodAmount / partyMembers) + " pełnych racji żywnościowych." +
+                  "\nPo równym podziale zostanie " + (foodAmount % partyMembers) + " racji." +
+                  "\nDziennie cała drużyna będzie miała " + (foodAmount / daysPassed) + " racji." +
+                  "\nDziennie jedna osoba będzie miała " + ((foodAmount / partyMembers) / daysPassed) + " racji.");*/
+
+//ZADANIE.4
+
+/*Console.Write("Punkty życia: ");
+int hp = int.Parse(Console.ReadLine());
+
+Console.Write("Liczba mikstur: ");
+int potions = int.Parse(Console.ReadLine());
+
+Console.Write("Czy ma klucz (true/false): ");
+bool hasAKey = bool.Parse(Console.ReadLine());
+
+Console.Write("Czy ma mapę (true/false): ");
+bool hasAMap = bool.Parse(Console.ReadLine());
+
+bool isALive = hp > 0;
+bool hasFullHp = hp == 100;
+bool hasEquipment = potions > 0;
+bool hasNavigationItem = hasAMap == true || hasAKey == true;
+bool isReady = isALive && hasEquipment && hasNavigationItem;
+
+Console.Write("\n" + isALive +
+                  "\n" + hasFullHp +
+                  "\n" + hasEquipment +
+                  "\n" + hasNavigationItem +
+                  "\n" + isReady);*/
+
+//ZADANIE.5
+
+/*Console.Write("Imię bohater: ");
+String name = Console.ReadLine();
+
+Console.Write("Maksymalne punkty życia: ");
+double maxHp = int.Parse(Console.ReadLine());
+
+Console.Write("Aktualne punkty życia: ");
+double hp = int.Parse(Console.ReadLine());
+
+Console.Write("Podstawowe obrażenia broni: ");
+int weaponDmg = int.Parse(Console.ReadLine());
+
+Console.Write("Premia do siły: ");
+int strength = int.Parse(Console.ReadLine());
+
+Console.Write("Mnożnik ataku specjalnego: ");
+double spAtkMulti = double.Parse(Console.ReadLine());
+
+Console.Write("Liczba wykonanych zwykłych ataków: ");
+int nHitsPerf = int.Parse(Console.ReadLine());
+
+int nAtk = weaponDmg + strength;
+double temp = nAtk * spAtkMulti;
+int spAtk = Convert.ToInt32(temp);
+int dmgTotal = nAtk * nHitsPerf + spAtk;
+double remHp = hp / maxHp * 100;
+bool isAlive = remHp > 0;
+bool hasFullHp = hp == maxHp;
+
+Console.WriteLine("\n====== RAPORT Z WALKI ======");
+Console.Write("Bohater: " + name +
+              "\nZdrowie: " + hp + "/" + maxHp + " (" + Math.Round(remHp, 2) + "%)" +
+              "\nZwykły atak: " + nAtk +
+              "\nAtak specjalny: " + spAtk +
+              "\nŁączne zadane obrażenia: " + dmgTotal +
+              "\nŻyje: " + isAlive + 
+              "\nPełne zdrowie: " + hasFullHp);
+Console.Write("\n============================");*/
