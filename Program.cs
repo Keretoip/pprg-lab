@@ -109,6 +109,30 @@ Console.Write("Zwykły atak (" + (weaponDamage + playerPower) + ") " + "= Siła 
 
 //ZADANIE.12
 
+/*Console.Write("Nazwa bohatera: ");
+String character = Console.ReadLine();
+
+Console.Write("Nazwa krainy: ");
+String worldName = Console.ReadLine();
+
+Console.Write("Liczba dni wyprawy: ");
+int days = int.Parse(Console.ReadLine());
+
+Console.Write("Liczba zdobytych punktów doświadczenia: ");
+int exp = int.Parse(Console.ReadLine());
+
+Console.Write("Liczba zebranego złota: ");
+int gold = int.Parse(Console.ReadLine());
+
+decimal expAverage = exp / days;
+decimal goldAverage = gold / days;
+
+Console.WriteLine("}---WYNIKI PRZYGODY---{");
+Console.WriteLine("Bohater " + character + ", podróżując w krainie " + worldName +
+                  ", \nspędził " + days + " dni, i dziennie zdołał uzbierać " + expAverage +
+                  " \npunktów doświadczenia. Łup z podróży wyniósł dziennie " + goldAverage + " złota. \nRazem, bohater " + 
+                  character + " zdołał uzyskać " + exp + " punktów doświadczenia, oraz " + gold + " złota.");*/
+
 //--------------------------------
 //LABORATORIUM 2
 //--------------------------------
