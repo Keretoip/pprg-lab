@@ -46,7 +46,7 @@ spAtk = Math.Round(spAtk, 2);
 bool isAlive = healthPoints > 0;
 bool hasAGoodDay = playerHappiness > 5;
 bool isInDanger = healthPoints < 20;
-
+Console.ForegroundColor = ConsoleColor.Yellow;
 Console.WriteLine("\n╔═════════════╗" +
                   "\n║  INVENTORY  ║" +
                   "\n╠═════════════╩═════════════╗" +
@@ -61,9 +61,42 @@ Console.WriteLine("\n╔═════════════╗" +
                   $"\n║     HP: {healthPoints}/{maxHp} ({healthPercent}%)    ║" +
                   "\n╠═══════════════════════════╣" +
                   $"\n║ Mood: {hasAGoodDay}                ║" +
-                  $"\n║ Alive: {isAlive}               ║" +
                   $"\n║ NAtk: {nAtk}                  ║" +
                   $"\n║ SpAtk: {spAtk}               ║" +
                   $"\n║ DmgTotal: {nAtk + spAtk}            ║" + 
                   $"\n║ AThing: {thisIsUselessButTheTaskRequiresItIWillDefinetlyUseItLaterButIJustDontHaveAnyUseForThisRightNow}         ║" +
                   $"\n║ LiveThreatned: {isInDanger}            ║");
+Console.ResetColor();
+if (!isAlive) {
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.Write("You are dead...");
+} else {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine("You are alive!");
+    Console.ResetColor();
+    Console.Write("You may choose an action(0-3): " +
+                 "\n1 - (Attack)\n2 - (Heal)\n3 - (Run)\n0 - (Wait)");
+    int action = int.Parse(Console.ReadLine());
+    
+    switch (action) {
+    case 1:
+            if hasAGoodDay && hasLowHp) {
+                Console.Write("The player values his life too much to fight.");
+            } else {
+                Console.Write("The player attacks!");
+            }
+        break;
+    case 2:
+        Console.Write("The player is healing.");
+        healthPoints += 15;
+        break;
+    case 3:
+        Console.Write("The player ran away.");
+        playerHappiness -= 1;
+        break;
+    default:
+        Console.Write("The player is waiting out this turn.");
+        break;
+    }
+}
+string hasFullHp = healthPoints < 100 ? "Player has full health." : "Player could use healing.";
