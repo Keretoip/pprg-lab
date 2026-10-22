@@ -1,0 +1,124 @@
+//ZADANIE.1
+
+/*int counter = 0;
+int counter2 = 0;
+
+while (counter < 10) {
+    counter++;
+    Console.Write(counter + " ");
+}
+
+Console.WriteLine();
+
+do {
+    counter2++;
+    Console.Write(counter2 + " ");
+} while (counter2 < 10);
+
+Console.WriteLine();
+
+for (int x = 1; x <= 10; x++) {
+    Console.Write(x + " ");
+}
+
+Console.WriteLine();
+
+for (int y = 10; y > 0; y--) {
+    Console.Write(y + " ");
+}
+
+Console.WriteLine();
+
+for (int x = 0; x <= 20; x += 2) {
+    Console.Write(x + " ");
+}
+
+Console.Write("\nStart!");*/
+
+//ZADANIE.2
+
+/*const bool game = true;
+int days;
+
+while (game) {
+    Console.Write("Days travelled(1-7): ");
+    days = int.Parse(Console.ReadLine());
+    
+    if (days >= 1 && days <= 7) {
+        break;
+    }
+}
+
+int total = 0;
+int successfulDay = 0;
+
+for (int counter = 1; counter <= days ; counter++) {
+    Console.Write($"Gold obtained day {counter}: ");
+    int gold = int.Parse(Console.ReadLine());
+    
+    total += gold;
+    
+    if (gold > 10) {
+        successfulDay++;
+    }
+}
+
+Console.Write($"\nTotal gold obtained: {total}" + 
+              $"\nSuccesful days: {successfulDay}");*/
+
+//ZADANIE.3
+
+/*const bool tree = true;
+int height;
+
+while (tree) {
+    Console.Write("Tree height(2-10): ");
+    height = int.Parse(Console.ReadLine());
+    
+    if (height >= 2 && height <= 10) {
+        break;
+    }
+}
+
+for (int i = 1, k = 1; i <= height * 2 - 1 && k <= height; i += 2, k++) {
+    
+    for (int j = k; j <= height; j++) {
+        Console.Write(" ");
+    }
+    
+    for (int j = 1; j <= i; j++) {
+        Console.Write('*');
+    }
+    
+    Console.WriteLine();
+}
+
+for (int j = 1; j <= height; j++) {
+    Console.Write(" ");
+}
+
+Console.Write('*');*/
+
+//ZADANIE.4
+
+/*const bool game = true;
+string rounds;
+
+while (game) {
+    Console.Write("Number of rounds(1-10): ");
+    rounds = Console.ReadLine();
+    
+    int.TryParse(rounds, out int round);
+    
+    if (round > 10) {
+        Console.WriteLine("The number is too high!");
+    } else if (round < 0) {
+        Console.WriteLine("The number is too low!");
+    } else if (round == 0) {
+        Console.WriteLine("You must input a whole number that isn't zero!");
+    } else {
+        break;
+    } 
+}*/
+
+//ZADANIE.5
