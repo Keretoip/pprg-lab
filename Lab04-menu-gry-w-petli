@@ -117,8 +117,72 @@ while (game) {
     } else if (round == 0) {
         Console.WriteLine("You must input a whole number that isn't zero!");
     } else {
+        Console.WriteLine("Staring...");
+    }
+
+    int counter = 1;
+    
+    if (round <= 10 && round > 0) {
+        while (counter <= round) {
+            Console.Write($"Round {counter}: ");
+            string input = Console.ReadLine();
+            counter++;
+        }
         break;
-    } 
+    }
 }*/
 
 //ZADANIE.5
+
+/*const bool game = true;
+
+int charHp = 60;
+int enemyHp = 45;
+int potions = 2;
+int round = 1;
+
+while (game) {
+    Console.Write($"\nRound {round}" + 
+                      $"\nChar Hp: {charHp} | Enemy Hp:{enemyHp}" +
+                      "\nAttack[1] | Heal[2] | Escape[3]" +
+                      "\nChoose action: ");
+    int input =  int.Parse(Console.ReadLine());
+    bool ran = false;
+    
+        switch (input) {
+            case 1:
+                Console.WriteLine("\nThe enemy deals 7 dmg to the player.");
+                charHp -= 7;
+                Console.WriteLine("The player deals 12 dmg to the enemy.");
+                enemyHp -= 12;
+                round++;
+                break;
+            case 2:
+                if (potions <= 0) {
+                    Console.WriteLine("\nYou are out of potions.");
+                } else {
+                    Console.WriteLine("\nThe enemy deals 7 dmg to the player.");
+                    charHp -= 7;
+                    Console.WriteLine("The player heals 15 dmg.");
+                    charHp += 15;
+                    potions--;
+                    round++;
+                    
+                }
+                break;
+            case 3:
+                Console.WriteLine("\nThe player escapes.");
+                ran = true;
+                break;
+        }
+        
+    if (ran) {
+        break;
+    } if (charHp <= 0) {
+        Console.WriteLine("\nYou lose.");
+        break;
+    } if (enemyHp <= 0) {
+        Console.WriteLine("\nYou win.");
+        break;
+    }
+}*/
