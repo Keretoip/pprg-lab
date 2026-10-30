@@ -1,0 +1,152 @@
+//ZADANIE.1
+
+/*int[] gold = {5, 3, 6, 2, 1, 10};
+int sum = 0;
+int counter = 0;
+int[] reversed = new int[gold.Length];
+
+for (int i = 1; i < gold.Length; i++) {
+    Console.WriteLine($"Turn {i}: {gold[i]} gold earned.");
+}
+
+foreach (int i in gold) {
+    sum += i;
+
+    if (i >= 5) {
+        counter++;
+    }
+}
+
+double average = (double)sum / gold.Length;
+
+Console.Write($"\nTotal gold earned: {sum}" +
+                  $"\nAverage: {Math.Round(average, 2)}" +
+                  $"\nTurns with atleast 5 gold: {counter}" +
+                  "\nReversed: ");
+for (int i = gold.Length - 1; i > 0; i--) {
+    Console.Write(gold[i] + " ");
+}*/
+
+//ZADANIE.2
+
+/*List<string> inventory = new List<string> {
+    "Sword", "Potion", "Torch"
+};
+
+Console.WriteLine($"Inventory ({inventory.Count}/6)");
+for (int i = 0, j = 1; i <= inventory.Count && j <= inventory.Count; i++, j++) {
+    Console.WriteLine($"{j}: {inventory[i]}");
+}
+
+string key = "Key";
+Console.WriteLine($"\nFound item: {key}" + "\n" +
+                  $"Added: {key}" +
+                  "\nUsed potion.\n");
+inventory.Add(key);
+inventory.Remove("Potion");
+
+Console.WriteLine($"Inventory ({inventory.Count}/6)");
+for (int i = 0, j = 1; i <= inventory.Count && j <= inventory.Count; i++, j++) {
+    Console.WriteLine($"{j}: {inventory[i]}");
+}*/
+
+//ZADANIE.3
+
+/*Dictionary<string, int> price = new Dictionary<string, int> {
+    {"Potion", 15}, {"Torch", 5}, {"Sword", 40}
+};
+
+Console.WriteLine($"Dictionary ({price.Count}/6))");
+
+foreach (KeyValuePair<string, int> pair in price) {
+    Console.WriteLine($"{pair.Key}: {pair.Value}G");
+}
+
+Console.WriteLine();
+
+Console.Write("Pick item: ");
+string item = Console.ReadLine();
+
+if (price.ContainsKey(item)) {
+    Console.WriteLine($"Price: {price[item]}G");
+} else {
+    Console.WriteLine("Not found.");
+}
+
+price["Potion"] = 12;
+
+Console.WriteLine();
+
+foreach (KeyValuePair<string, int> pair in price) {
+    Console.WriteLine($"{pair.Key}: {pair.Value}G");
+}*/
+
+//ZADANIE.4
+
+/*const bool game = true;
+int turns;
+
+while (game) {
+    Console.Write("Turns(1-10): ");
+    turns = int.Parse(Console.ReadLine());
+    
+    if (turns <= 10 && turns >= 1) {
+        break;
+    }
+}
+
+int[] z = new int[turns];
+int[] tempCopy = new int[turns];
+
+int gold = 0;
+int sum = 0;
+
+int goldCount;
+
+for (int i = 0, j = 1; i < z.Length && j < z.Length + 1; i++, j++) {
+    Console.Write($"Gold aquired turn {j}: ");
+    goldCount = int.Parse(Console.ReadLine());
+    if (goldCount < 0) {
+        Console.WriteLine("Too low.");
+        i--;
+        j--;
+    } else {
+        z[i] = goldCount;
+        tempCopy[i] = goldCount;
+        sum += goldCount;
+    }
+}
+
+int counter = 0;
+
+for (int i = 0; i < z.Length; i++) {
+    
+    for (int j = i + 1; j < z.Length; j++) {
+        if (z[i] > z[j]) {
+            int temp = z[i];
+            z[i] = z[j];
+            z[j] = temp;
+        }
+    }
+}
+
+int counter2 = 0;
+
+for (int i = 0; i < z.Length; i++) {
+    if (z[i] == z[z.Length - 1]) {
+        counter++;
+    }
+
+    if (tempCopy[i] == z[z.Length - 1]) {
+        counter2 = tempCopy[i];
+        break;
+    }
+}
+
+Console.WriteLine($"Sum: {sum}" +
+                  $"\nMax: {z[z.Length - 1]}" +
+                  $"\nMin: {z[0]}" +
+                  $"\nFirst instance of max: {counter2}" +
+                  $"\nTurns with max: {counter}");*/
+
+//ZADANIE.5
