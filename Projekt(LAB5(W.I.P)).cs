@@ -21,6 +21,7 @@ while (game) {
 while (game) {
     Console.WriteLine($"How much gold does {playerName} have?");
     string currency = Console.ReadLine();
+    
     if (currency == "0") {
         gold = 0;
         break;
@@ -42,6 +43,7 @@ bool hasLowHp = hp < 30;
 string hasFullHp = hp == maxHp ? "Player has full health." : "Player could use healing.";
 
 string[] loot = {"Potion", "Key", "Torch", "Scroll"};
+int[] goldAquiredPerTurn = new int[20];
 
 List<string> inventory = new List<string> {
     "Sword", "Potion"
@@ -75,6 +77,7 @@ while (game) {
                       "\n8 - End game");
     int.TryParse(Console.ReadLine(), out int action);
     bool invFull = inventory.Count == 6;
+    
     if (action <= 0 || action > 8) {
         continue;
     } 
@@ -82,17 +85,22 @@ while (game) {
         case 1:
             Console.WriteLine("\nYou venture into the dungeon...\n");
             Console.WriteLine("You lose 8 HP, but gain 10 Gold!\n");
+            
             if (hp < 8) {
                 hp -= hp;
             } else {
                 hp -= 8;
             }
+            
             gold += 10;
+            goldAquiredPerTurn[turn - 1] += 10;
+            
             history.Add($"Turn {turn}: obtained 10 gold, and lost 8 HP.");
             break;
         case 2:
             if (inventory.Count > 0) {
                 Console.WriteLine("\n====INVENTORY====");
+                
                 for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
                     Console.WriteLine($"{j}. {inventory[i]}");
                 }
@@ -102,28 +110,111 @@ while (game) {
             }
             continue;
         case 3:
+            if (inventory.Count > 0) {
+                Console.WriteLine("\n====INVENTORY====");
+                
+                for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
+                    Console.WriteLine($"{j}. {inventory[i]}");
+                }
+                Console.WriteLine("=================\n");
+            } else {
+                Console.WriteLine("\nInventory is empty.\n");
+            }
             
+            bool no;
+            
+            while (true) {
+                Console.WriteLine("Would you like to use an item?(y/n)");
+                string input = Console.ReadLine();
+
+                if (input == "y") {
+                    Console.WriteLine($"Choose item (1-{inventory.Count}):");
+                    int.TryParse(Console.ReadLine(), out int item);
+                    
+                    if (item <= inventory.Count && item > 0) {
+                        if (inventory[item - 1] == loot[0]) {
+                            if (hp == maxHp) {
+                                Console.WriteLine("\nYou have full health.\n");
+                            } else {
+                                hp += 20;
+                                Console.WriteLine("\nYou heal 20 HP\n");
+                                inventory.RemoveAt(item - 1);
+                            }
+                        } else if (inventory[item - 1] == loot[1]) {
+                            Console.WriteLine("Nothing happens.");
+                        } else if (inventory[item - 1] == loot[2]) {
+                            Console.WriteLine("You lit up the corridor.");
+                            inventory.RemoveAt(item - 1);
+                        } else if (inventory[item - 1] == loot[3]) {
+                            Console.WriteLine("You open the scroll, and gain 15 gold.");
+                            gold += 15;
+                            inventory.RemoveAt(item - 1);
+                        }
+                    } else {
+                        Console.WriteLine("\nIncorrect input.\n");  
+                    }
+                } else if (input == "n") {
+                    no = true;
+                    break;
+                }
+            }
+            if (no) {
+                continue;
+            }
             break;
         case 4:
+            bool check = false;
+            
             for (int i = 0, j = 1; i < loot.Length && j <= loot.Length; i++, j++) {
                 Console.WriteLine($"{j}: {loot[i]}");
             }
             while (true) {
                 Console.Write($"Pick an item(1-{loot.Length}): ");
                 int.TryParse(Console.ReadLine(), out int item);
-                if (invFull) {
+                
+                if (item == 0 || item > 4) {
+                    Console.WriteLine("\nIncorrect input.\n");
+                    check = true;
+                } else if (invFull) {
                     Console.WriteLine("\nYour inventory is full.\n");
-                } 
-                if (item >= 1 && item <= loot.Length) {
+                } else if (item >= 1 && item <= loot.Length) {
                     inventory.Add(loot[item - 1]);
+                    history.Add($"Added {loot[item - 1]} to inventory.");
                 }
                 break;
             }
-            if (invFull) {
+            if (invFull || check) {
                 continue;
             }
             break;
         case 5:
+            bool nope = false;
+            
+            while (true) {
+                Console.WriteLine("Are you sure you want to remove an item?(y/n)");
+                string input2 = Console.ReadLine();
+            
+                if (input2 == "y") {
+                    Console.WriteLine($"Choose item (1-{inventory.Count}):");
+                    int.TryParse(Console.ReadLine(), out int item);
+                    
+                    if (inventory.Count == 0) {
+                        Console.WriteLine("\nYou have no items.\n");
+                    } else if (item <= inventory.Count && item > 0) {
+                        history.Add($"Removed {inventory[item - 1]} from inventory.");
+                        inventory.RemoveAt(item - 1);
+                        break;
+                    } else {
+                        Console.WriteLine("\nIncorrect input.\n");  
+                    }
+                } else if (input2 == "n") {
+                    nope = true;
+                    break;
+                }
+            }
+            if (nope) {
+                continue;
+            }
             break;
         case 6:
             break;
