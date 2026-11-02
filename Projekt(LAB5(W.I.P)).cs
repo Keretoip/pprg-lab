@@ -34,7 +34,7 @@ while (game) {
 }
 Console.WriteLine("------------------------------------");
 
-double healthPercent = (double)hp / maxHp * 100;
+double healthPercent = (double) hp / maxHp * 100;
 healthPercent = Math.Round(healthPercent, 2);
 
 bool isAlive = hp > 0;
@@ -121,7 +121,7 @@ while (game) {
                 Console.WriteLine("\nInventory is empty.\n");
             }
             
-            bool no;
+            bool no = false;
             
             while (true) {
                 Console.WriteLine("Would you like to use an item?(y/n)");
@@ -132,27 +132,41 @@ while (game) {
                     int.TryParse(Console.ReadLine(), out int item);
                     
                     if (item <= inventory.Count && item > 0) {
+                        
                         if (inventory[item - 1] == loot[0]) {
+                            
                             if (hp == maxHp) {
                                 Console.WriteLine("\nYou have full health.\n");
+                            } else if (maxHp - hp < 20) {
+                                int difference = maxHp - hp;
+                                hp += difference;
+                                Console.WriteLine($"\nYou heal {difference} HP.\n");
+                                break;
                             } else {
                                 hp += 20;
-                                Console.WriteLine("\nYou heal 20 HP\n");
+                                Console.WriteLine("\nYou heal 20 HP.\n");
                                 inventory.RemoveAt(item - 1);
+                                break;
                             }
+                            
                         } else if (inventory[item - 1] == loot[1]) {
-                            Console.WriteLine("Nothing happens.");
+                            Console.WriteLine("\nNothing happens for now.\n");
+                            break;
                         } else if (inventory[item - 1] == loot[2]) {
-                            Console.WriteLine("You lit up the corridor.");
+                            Console.WriteLine("\nYou lit up the corridor.\n");
                             inventory.RemoveAt(item - 1);
+                            break;
                         } else if (inventory[item - 1] == loot[3]) {
-                            Console.WriteLine("You open the scroll, and gain 15 gold.");
+                            Console.WriteLine("\nYou open the scroll, and gain 15 gold.\n");
                             gold += 15;
                             inventory.RemoveAt(item - 1);
+                            break;
                         }
+                        
                     } else {
                         Console.WriteLine("\nIncorrect input.\n");  
                     }
+                    
                 } else if (input == "n") {
                     no = true;
                     break;
@@ -192,9 +206,9 @@ while (game) {
             
             while (true) {
                 Console.WriteLine("Are you sure you want to remove an item?(y/n)");
-                string input2 = Console.ReadLine();
+                string input = Console.ReadLine();
             
-                if (input2 == "y") {
+                if (input == "y") {
                     Console.WriteLine($"Choose item (1-{inventory.Count}):");
                     int.TryParse(Console.ReadLine(), out int item);
                     
@@ -207,7 +221,7 @@ while (game) {
                     } else {
                         Console.WriteLine("\nIncorrect input.\n");  
                     }
-                } else if (input2 == "n") {
+                } else if (input == "n") {
                     nope = true;
                     break;
                 }
