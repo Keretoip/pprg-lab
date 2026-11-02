@@ -1,12 +1,15 @@
-int strength = 5, dexterity = 5, intelligence = 5;
-int experience = 0;
-int requiredExp = 100;
 byte maxHp = 100;
 const byte invSpace = 6;
 int turn = 1;
 int hp;
+int exploration = 0;
+int goldTotal = 0;
+int noGoldCount = 0;
 decimal gold; 
 const bool game = true;
+bool gameOver = false;
+string lastChoice = "";
+
 Console.WriteLine("Name your character: ");
 String playerName = Console.ReadLine();
 
@@ -34,16 +37,8 @@ while (game) {
 }
 Console.WriteLine("------------------------------------");
 
-double healthPercent = (double) hp / maxHp * 100;
-healthPercent = Math.Round(healthPercent, 2);
-
-bool isAlive = hp > 0;
-bool hasLowHp = hp < 30;
-
-string hasFullHp = hp == maxHp ? "Player has full health." : "Player could use healing.";
-
 string[] loot = {"Potion", "Key", "Torch", "Scroll"};
-int[] goldAquiredPerTurn = new int[20];
+int[] goldPerTurn = new int[20];
 
 List<string> inventory = new List<string> {
     "Sword", "Potion"
@@ -51,13 +46,16 @@ List<string> inventory = new List<string> {
 List<string> history = new List<string>();
 
 while (game) {
+    double healthPercent = (double)hp / maxHp * 100;
+    healthPercent = Math.Round(healthPercent, 2);
+    
     Console.WriteLine("=====[-{|}-The PJATK Game-{|}-]=====");
     Console.WriteLine($"Turn: {turn}" +
                       $"\nCharacter: {playerName}");
     Console.Write("HP: ");
-    if (!isAlive || hp < 20) {
+    if (hp < 20) {
         Console.ForegroundColor = ConsoleColor.Red;
-    } else if (hasLowHp) {
+    } else if (hp < 40) {
         Console.ForegroundColor = ConsoleColor.Yellow;
     } else if (hp == maxHp) {
         Console.ForegroundColor = ConsoleColor.Magenta;
@@ -88,12 +86,19 @@ while (game) {
             
             if (hp < 8) {
                 hp -= hp;
+                gameOver = true;
+                lastChoice = "Player died.";
+                
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("You are dead.");
+                Console.ResetColor();
             } else {
                 hp -= 8;
             }
             
+            exploration++;
             gold += 10;
-            goldAquiredPerTurn[turn - 1] += 10;
+            goldPerTurn[turn - 1] += 10;
             
             history.Add($"Turn {turn}: obtained 10 gold, and lost 8 HP.");
             break;
@@ -116,6 +121,7 @@ while (game) {
                 for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
                     Console.WriteLine($"{j}. {inventory[i]}");
                 }
+                
                 Console.WriteLine("=================\n");
             } else {
                 Console.WriteLine("\nInventory is empty.\n");
@@ -140,27 +146,32 @@ while (game) {
                             } else if (maxHp - hp < 20) {
                                 int difference = maxHp - hp;
                                 hp += difference;
+                                
                                 Console.WriteLine($"\nYou heal {difference} HP.\n");
                                 break;
                             } else {
-                                hp += 20;
                                 Console.WriteLine("\nYou heal 20 HP.\n");
+                                hp += 20;
+                                
                                 inventory.RemoveAt(item - 1);
                                 break;
                             }
-                            
-                        } else if (inventory[item - 1] == loot[1]) {
-                            Console.WriteLine("\nNothing happens for now.\n");
-                            break;
+                            history.Add($"Turn {turn}: Player used a potion.");
                         } else if (inventory[item - 1] == loot[2]) {
                             Console.WriteLine("\nYou lit up the corridor.\n");
                             inventory.RemoveAt(item - 1);
+                            history.Add($"Turn {turn}: Player used a torch.");
                             break;
                         } else if (inventory[item - 1] == loot[3]) {
                             Console.WriteLine("\nYou open the scroll, and gain 15 gold.\n");
                             gold += 15;
+                            goldPerTurn[turn - 1] += 15;
+                            
                             inventory.RemoveAt(item - 1);
+                            history.Add($"Turn {turn}: Player used a scroll.");
                             break;
+                        } else {
+                            Console.WriteLine("\nThis item has no use.\n");
                         }
                         
                     } else {
@@ -193,7 +204,7 @@ while (game) {
                     Console.WriteLine("\nYour inventory is full.\n");
                 } else if (item >= 1 && item <= loot.Length) {
                     inventory.Add(loot[item - 1]);
-                    history.Add($"Added {loot[item - 1]} to inventory.");
+                    history.Add($"Turn {turn}: Added {loot[item - 1]} to inventory.");
                 }
                 break;
             }
@@ -215,12 +226,13 @@ while (game) {
                     if (inventory.Count == 0) {
                         Console.WriteLine("\nYou have no items.\n");
                     } else if (item <= inventory.Count && item > 0) {
-                        history.Add($"Removed {inventory[item - 1]} from inventory.");
+                        history.Add($"Turn {turn}: Removed {inventory[item - 1]} from inventory.");
                         inventory.RemoveAt(item - 1);
                         break;
                     } else {
                         Console.WriteLine("\nIncorrect input.\n");  
                     }
+                    
                 } else if (input == "n") {
                     nope = true;
                     break;
@@ -231,19 +243,90 @@ while (game) {
             }
             break;
         case 6:
-            break;
+            Console.WriteLine("====PLAYER HISTORY====");
+            for (int i = history.Count - 1; i >= 0; i--) {
+                Console.WriteLine(history[i]);
+            }
+            Console.WriteLine("======================");
+            continue;
         case 7:
-            break;
+            for (int i = 0; i < turn - 1; i++) {
+                if (goldPerTurn[i] == 0) {
+                    noGoldCount++;
+                }
+            }
+            for (int i = 0; i < goldPerTurn.Length; i++) {
+                goldTotal += goldPerTurn[i];
+            }
+            for (int i = 0; i < goldPerTurn.Length; i++) {
+                for (int j = i + 1; j < goldPerTurn.Length; j++) {
+                    if (goldPerTurn[i] > goldPerTurn[j]) {
+                        int temp = goldPerTurn[i];
+                        goldPerTurn[i] = goldPerTurn[j];
+                        goldPerTurn[j] = temp;
+                    }
+                }
+            }
+            Console.WriteLine($"\nExplorations: {exploration}" +
+                              $"\nGold earned from exploring: {goldTotal}" +
+                              $"\nHighest earned gold in a turn: {goldPerTurn[goldPerTurn.Length - 1]}" +
+                              $"\nTurns without gold: {noGoldCount}\n");
+            continue;
         case 8:
+            bool exitChoice = false;
+            
+            while (true) {
+                Console.WriteLine("Are you sure you want to end the game?(y/n)");
+                string input = Console.ReadLine();
+
+                if (input == "y") {
+                    gameOver = true;
+                    lastChoice = "Player ended the game.";
+                    Console.WriteLine("\nEnding game...");
+                    break;
+                }
+                if (input == "n") {
+                    exitChoice = true;
+                    break;
+                }
+            }
+            if (exitChoice) {
+                continue;
+            }
             break;
     }
+    if (hp > 0 && turn == 20) {
+        gameOver = true;
+        lastChoice = "Player reached game limit.";
+        Console.WriteLine("You ran out of turns.");
+    }
+    if (gameOver) {
+        Console.WriteLine("\n=====GAME SUMMARY=====");
+        Console.WriteLine($"Character: {playerName}" +
+                          $"\nTurns played: {turn}" +
+                          $"\nExplorations: {exploration}" +
+                          $"\nHP: {hp}/{maxHp}" +
+                          $"\nGold: {gold}" +
+                          $"\nInventory: {inventory.Count}/6" +
+                          $"\nHistory notes: {history.Count}" +
+                          $"\nReason of ending: {lastChoice}");
+        if (inventory.Count > 0) {
+            Console.WriteLine("\n====INVENTORY====");
+                
+            for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
+                Console.WriteLine($"{j}. {inventory[i]}");
+            }
+            Console.WriteLine("=================\n");
+        } else {
+            Console.WriteLine("\nInventory is empty.\n");
+        }
 
-    if (hp == 0) {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("You are dead.");
+        Console.WriteLine("====PLAYER HISTORY====");
+        for (int i = history.Count - 1; i >= 0; i--) {
+            Console.WriteLine(history[i]);
+        }
+        Console.WriteLine("======================");
         break;
     }
     turn++;
 }
-
-//║ ══  ╠ ╗ ╔ ╚ ╝
