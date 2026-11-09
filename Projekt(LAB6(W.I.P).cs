@@ -45,7 +45,38 @@ List<string> inventory = new List<string> {
 };
 List<string> history = new List<string>();
 
-while (game) {
+void hpColor() {
+    if (hp < 0 || hp < 20) {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write(hp);
+        Console.ResetColor();
+    } else if (hp < 40) {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write(hp);
+        Console.ResetColor();
+    } else if (hp == maxHp) {
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.Write(hp);
+        Console.ResetColor();
+    } else {
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.Write(hp);
+        Console.ResetColor();
+    }
+}
+void showInv() {
+    if (inventory.Count > 0) {
+        Console.WriteLine("\n====INVENTORY====");
+                
+        for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
+            Console.WriteLine($"{j}. {inventory[i]}");
+        }
+        Console.WriteLine("=================\n");
+    } else {
+        Console.WriteLine("\nInventory is empty.\n");
+    }
+}
+void menu() {
     double healthPercent = (double)hp / maxHp * 100;
     healthPercent = Math.Round(healthPercent, 2);
     
@@ -53,17 +84,7 @@ while (game) {
     Console.WriteLine($"Turn: {turn}" +
                       $"\nCharacter: {playerName}");
     Console.Write("HP: ");
-    if (hp < 20) {
-        Console.ForegroundColor = ConsoleColor.Red;
-    } else if (hp < 40) {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-    } else if (hp == maxHp) {
-        Console.ForegroundColor = ConsoleColor.Magenta;
-    } else {
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-    }
-    Console.Write($"{hp}");
-    Console.ResetColor();
+    hpColor();
     Console.WriteLine($"/{maxHp} ({healthPercent}%) | Gold: {gold} | Inv: {inventory.Count}/{invSpace}");
     Console.WriteLine("\n1 - Explore dungeon" +
                       "\n2 - Open inventory" +
@@ -73,6 +94,40 @@ while (game) {
                       "\n6 - Show history" +
                       "\n7 - Show stats" +
                       "\n8 - End game");
+}
+void stats() {
+    for (int i = 0; i < turn - 1; i++) {
+        if (goldPerTurn[i] == 0) {
+            noGoldCount++;
+        }
+    }
+    for (int i = 0; i < goldPerTurn.Length; i++) {
+        goldTotal += goldPerTurn[i];
+    }
+    for (int i = 0; i < goldPerTurn.Length; i++) {
+        for (int j = i + 1; j < goldPerTurn.Length; j++) {
+            if (goldPerTurn[i] > goldPerTurn[j]) {
+                int temp = goldPerTurn[i];
+                goldPerTurn[i] = goldPerTurn[j];
+                goldPerTurn[j] = temp;
+            }
+        }
+    }
+    Console.WriteLine($"\nExplorations: {exploration}" +
+                      $"\nGold earned from exploring: {goldTotal}" +
+                      $"\nHighest earned gold in a turn: {goldPerTurn[goldPerTurn.Length - 1]}" +
+                      $"\nTurns without gold: {noGoldCount}\n");
+}
+void showHistory() {
+    Console.WriteLine("====PLAYER HISTORY====");
+    for (int i = history.Count - 1; i >= 0; i--) {
+        Console.WriteLine(history[i]);
+    }
+    Console.WriteLine("======================");
+}
+
+while (game) {
+    menu();
     int.TryParse(Console.ReadLine(), out int action);
     bool invFull = inventory.Count == 6;
     
@@ -103,29 +158,10 @@ while (game) {
             history.Add($"Turn {turn}: obtained 10 gold, and lost 8 HP.");
             break;
         case 2:
-            if (inventory.Count > 0) {
-                Console.WriteLine("\n====INVENTORY====");
-                
-                for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
-                    Console.WriteLine($"{j}. {inventory[i]}");
-                }
-                Console.WriteLine("=================\n");
-            } else {
-                Console.WriteLine("\nInventory is empty.\n");
-            }
+            showInv();
             continue;
         case 3:
-            if (inventory.Count > 0) {
-                Console.WriteLine("\n====INVENTORY====");
-                
-                for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
-                    Console.WriteLine($"{j}. {inventory[i]}");
-                }
-                
-                Console.WriteLine("=================\n");
-            } else {
-                Console.WriteLine("\nInventory is empty.\n");
-            }
+            showInv();
             
             bool no = false;
             
@@ -243,34 +279,10 @@ while (game) {
             }
             break;
         case 6:
-            Console.WriteLine("====PLAYER HISTORY====");
-            for (int i = history.Count - 1; i >= 0; i--) {
-                Console.WriteLine(history[i]);
-            }
-            Console.WriteLine("======================");
+            showHistory();
             continue;
         case 7:
-            for (int i = 0; i < turn - 1; i++) {
-                if (goldPerTurn[i] == 0) {
-                    noGoldCount++;
-                }
-            }
-            for (int i = 0; i < goldPerTurn.Length; i++) {
-                goldTotal += goldPerTurn[i];
-            }
-            for (int i = 0; i < goldPerTurn.Length; i++) {
-                for (int j = i + 1; j < goldPerTurn.Length; j++) {
-                    if (goldPerTurn[i] > goldPerTurn[j]) {
-                        int temp = goldPerTurn[i];
-                        goldPerTurn[i] = goldPerTurn[j];
-                        goldPerTurn[j] = temp;
-                    }
-                }
-            }
-            Console.WriteLine($"\nExplorations: {exploration}" +
-                              $"\nGold earned from exploring: {goldTotal}" +
-                              $"\nHighest earned gold in a turn: {goldPerTurn[goldPerTurn.Length - 1]}" +
-                              $"\nTurns without gold: {noGoldCount}\n");
+            stats();
             continue;
         case 8:
             bool exitChoice = false;
@@ -310,22 +322,8 @@ while (game) {
                           $"\nInventory: {inventory.Count}/6" +
                           $"\nHistory notes: {history.Count}" +
                           $"\nReason of ending: {lastChoice}");
-        if (inventory.Count > 0) {
-            Console.WriteLine("\n====INVENTORY====");
-                
-            for (int i = 0, j = 1; i < inventory.Count && j <= inventory.Count; i++, j++) {
-                Console.WriteLine($"{j}. {inventory[i]}");
-            }
-            Console.WriteLine("=================\n");
-        } else {
-            Console.WriteLine("\nInventory is empty.\n");
-        }
-
-        Console.WriteLine("====PLAYER HISTORY====");
-        for (int i = history.Count - 1; i >= 0; i--) {
-            Console.WriteLine(history[i]);
-        }
-        Console.WriteLine("======================");
+        showInv();
+        showHistory();
         break;
     }
     turn++;
